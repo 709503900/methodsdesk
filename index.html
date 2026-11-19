@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f0f7f6">
+  <meta name="description" content="有文献依据的量化与质性研究工具。在线计算统计功效、问卷样本与发放量，规划访谈样本并监测新增编码。">
+  <title>MethodsDesk 研究方法工具箱</title>
+  <link rel="icon" href="./assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./assets/styles.css">
+  <script type="module" src="./assets/app.mjs"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳至主要内容</a>
+  <header class="masthead">
+    <div class="frame masthead-inner">
+      <a class="brand" href="#">
+        <img src="./assets/icon.svg" alt="" width="36" height="36">
+        <span>MethodsDesk</span>
+      </a>
+      <nav class="main-nav" aria-label="网站导航">
+        <a href="#" data-nav="home">工具</a>
+        <a href="#about" data-nav="about">方法与验算</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="frame" tabindex="-1">
+    <section id="home" class="view home-view">
+      <div class="hero">
+        <div class="hero-copy">
+          <h1 tabindex="-1">研究方法工具箱</h1>
+          <p>有文献依据的量化与质性研究工具。</p>
+          <p>选择研究任务，查看计算条件、算例和方法出处。</p>
+        </div>
+        <div class="hero-art" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+
+      <div class="catalog" aria-label="研究工具">
+        <section class="catalog-group" aria-labelledby="quant-heading">
+          <h2 id="quant-heading">定量研究</h2>
+          <div class="cards">
+            <a class="tool-card" href="#power">
+              <span class="card-icon" aria-hidden="true">β</span>
+              <span class="card-copy"><strong>功效分析</strong><span>按独立样本或配对 t 检验规划样本量。</span></span>
+              <span class="card-open" aria-hidden="true">打开</span>
+            </a>
+            <a class="tool-card" href="#survey">
+              <span class="card-icon" aria-hidden="true">n</span>
+              <span class="card-copy"><strong>问卷样本量</strong><span>按总体比例的估计精度规划可用答卷数。</span></span>
+              <span class="card-open" aria-hidden="true">打开</span>
+            </a>
+            <a class="tool-card" href="#invites">
+              <span class="card-icon" aria-hidden="true">%</span>
+              <span class="card-copy"><strong>问卷发放量</strong><span>根据预计回收率和可用率反推邀请数。</span></span>
+              <span class="card-open" aria-hidden="true">打开</span>
+            </a>
+          </div>
+        </section>
+        <section class="catalog-group" aria-labelledby="qual-heading">
+          <h2 id="qual-heading">质性研究</h2>
+          <div class="cards">
+            <a class="tool-card qualitative" href="#interview">
+              <span class="card-icon" aria-hidden="true">访</span>
+              <span class="card-copy"><strong>访谈样本规划</strong><span>用信息力框架记录初始招募计划和样本理由。</span></span>
+              <span class="card-open" aria-hidden="true">打开</span>
+            </a>
+            <a class="tool-card qualitative" href="#saturation">
+              <span class="card-icon" aria-hidden="true">Δ</span>
+              <span class="card-copy"><strong>编码饱和度监测</strong><span>按访谈顺序查看新增编码比例。</span></span>
+              <span class="card-open" aria-hidden="true">打开</span>
+            </a>
+          </div>
+        </section>
+      </div>
+      <noscript><p class="callout">启用 JavaScript 后即可在浏览器中使用计算器。</p></noscript>
+    </section>
+
+    <section id="power" class="view tool-view" hidden>
+      <div class="tool-heading">
+        <a class="back-link" href="#">返回工具</a>
+        <h1 tabindex="-1">功效分析</h1>
+        <p>根据最小有意义效应或有依据的预期效应，估算 t 检验所需样本。两组独立样本采用等额分配及合并方差 t 检验。</p>
+      </div>
+      <div class="tool-grid">
+        <form id="power-form" class="tool-form">
+          <div class="field">
+            <label for="power-design">研究设计</label>
+            <select id="power-design" name="design">
+              <option value="independent">独立样本 t 检验</option>
+              <option value="paired">配对 t 检验</option>
+            </select>
+          </div>
+          <div class="field-grid">
+            <div class="field">
+              <label for="power-effect">标准化效应量</label>
+              <input id="power-effect" name="effectSize" type="number" inputmode="decimal" step="any" placeholder="例 0.50" aria-describedby="power-effect-help" required>
+              <small id="power-effect-help">均值差除以共同组内标准差。</small>
+            </div>
+            <div class="field">
+              <label for="power-tails">检验方向</label>
+              <select id="power-tails" name="tails">
+                <option value="2">双侧</option>
+                <option value="1">单侧</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="power-alpha">显著性水平 α</label>
+              <input id="power-alpha" name="alpha" type="number" inputmode="decimal" step="any" value="0.05" required>
+            </div>
+            <div class="field">
+              <label for="power-target">目标功效 1 − β</label>
+              <input id="power-target" name="targetPower" type="number" inputmode="decimal" step="any" value="0.80" required>
+            </div>
+          </div>
+          <div class="field">
+            <label for="power-evidence">效应量依据 <small>选填</small></label>
+            <input id="power-evidence" name="basis" type="text" maxlength="300" placeholder="例如，参考先导研究或最小有意义差异">
+          </div>
+          <p id="power-direction" class="callout" hidden>单侧检验的方向需在研究前确定。效应量输入预期方向上的正值。</p>
+          <div class="form-actions">
+            <button class="button" type="submit">计算样本量</button>
+            <button class="button secondary" type="button" id="power-example">载入算例</button>
+          </div>
+          <p id="power-error" class="error" role="alert" hidden></p>
+        </form>
+        <div id="power-result" class="tool-result" aria-live="polite" aria-atomic="true">
+          <h2>样本量结果</h2>
+          <p>填写设计参数后计算。</p>
+        </div>
+      </div>
+      <details class="method-notes">
+        <summary>计算方法、适用条件与算例</summary>
+        <p>使用非中心 t 分布计算备择假设下落入拒绝域的概率。双侧检验计入两端拒绝域。网站搜索达到目标功效的最小整数样本量。</p>
+        <p>独立样本检验假定观测独立及两组总体方差相等。配对检验以每对观测的差值为分析单位，效应量分母为差值的标准差。两种计算均使用相应的正态模型。</p>
+        <p>演示算例采用双侧独立样本检验。效应量取 0.50，显著性水平取 0.05，目标功效取 0.80。需要每组 64 人，共 128 人，按所设效应量计算，取整后的功效约为 0.80146。例中的效应量用于演示。</p>
+        <p><a href="https://doi.org/10.3758/BF03193146">Faul 等，G*Power 3 方法论文</a> · <a href="https://doi.org/10.1525/collabra.33267">Lakens，样本量论证</a> · <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/power.t.test.html">R 参考实现</a></p>
+      </details>
+    </section>
+
+    <section id="survey" class="view tool-view" hidden>
+      <div class="tool-heading">
+        <a class="back-link" href="#">返回工具</a>
+        <h1 tabindex="-1">问卷样本量</h1>
+        <p>根据置信水平和允许误差，估算简单随机抽样下估计一个总体比例所需的答卷数。</p>
+      </div>
+      <div id="survey-tool"></div>
+    </section>
+
+    <section id="invites" class="view tool-view" hidden>
+      <div class="tool-heading">
+        <a class="back-link" href="#">返回工具</a>
+        <h1 tabindex="-1">问卷发放量</h1>
+        <p>用计划取得的可用答卷数和预计回收情况，估算要发出多少定向邀请。</p>
+      </div>
+      <div id="invites-tool"></div>
+    </section>
+
+    <section id="interview" class="view tool-view" hidden>
+      <div class="tool-heading">
+        <a class="back-link" href="#">返回工具</a>
+        <h1 tabindex="-1">访谈样本规划</h1>
+        <p>依据信息力框架，记录初始招募计划与复核条件。招募人数由研究者根据研究情境填写。</p>
+      </div>
+      <div id="interview-tool"></div>
+    </section>
+
+    <section id="saturation" class="view tool-view" hidden>
+      <div class="tool-heading">
+        <a class="back-link" href="#">返回工具</a>
+        <h1 tabindex="-1">编码饱和度监测</h1>
+        <p>输入按开展顺序整理的新增编码数，查看各连续访谈窗口的新增编码比例。</p>
+      </div>
+      <div id="saturation-tool"></div>
+    </section>
+
+    <section id="about" class="view tool-view" hidden>
+      <div class="tool-heading">
+        <a class="back-link" href="#">返回工具</a>
+        <h1 tabindex="-1">方法与验算</h1>
+        <p>每个工具页附有使用条件、参数说明、算例与出处。</p>
+      </div>
+      <div class="reader">
+        <h2>计算与复核</h2>
+        <p>功效分析用 R 的非中心 t 分布结果交叉验算。比例样本量按已发表的抽样公式复算。编码饱和度使用 Guest 等人论文图 3 的算例核对。</p>
+        <p>所有计算与工作表都在浏览器中运行。工具页面无需登录，输入由使用者在页面内填写和记录。</p>
+        <a class="button secondary" href="https://github.com/709503900/methodsdesk">查看源码与验算用例</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="frame footer-inner">
+      <a href="#">MethodsDesk</a>
+      <span>浏览器内计算</span>
+      <a href="#about">方法与验算</a>
+    </div>
+  </footer>
+</body>
+</html>
