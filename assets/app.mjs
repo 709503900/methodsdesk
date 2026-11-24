@@ -1,6 +1,8 @@
 import { mountPower } from './power-tool.mjs';
 import { mountSurvey } from './survey.mjs';
 import { mountQual } from './qual.mjs';
+import { mountTravel } from './travel-tool.mjs';
+import { mountFileTrace } from './trace-tool.mjs';
 import { copyText } from './ui.mjs';
 
 const homeTitle = 'MethodsDesk 研究方法工具箱';
@@ -72,6 +74,8 @@ function mountToolNavigation() {
 mountPower();
 mountSurvey();
 mountQual();
+mountTravel();
+mountFileTrace();
 mountCatalog();
 mountToolNavigation();
 showView();

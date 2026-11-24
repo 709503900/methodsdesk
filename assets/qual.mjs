@@ -18,7 +18,17 @@ const interviewFields = [
   { name: "review", label: "复核节点与调整条件", prompt: "记录何时审阅资料，以及在哪些情况下继续、调整或结束招募。" },
 ];
 
-export function interviewRecord(values) {
+const interviewExample = {
+  aim: "了解新入学研究生使用图书馆座位预约系统时，如何选择座位并处理预约失败。",
+  specificity: "招募本学期至少尝试过一次预约的新入学研究生，覆盖预约成功、失败及不同使用频率。",
+  theory: "借助技术使用情境整理参与者的操作过程。试访后复核现有概念能否解释受访者遇到的问题。",
+  dialogue: "请受访者回忆最近一次预约的完整过程，追问操作前后的选择。用两次试访检查问题能否引出具体事例。",
+  analysis: "先形成每位受访者的预约过程摘要，再比较预约成功和失败的具体情境。",
+  plan: "这项虚构研究先安排 2 次试访，再计划招募 6 至 8 名符合条件的学生。按预约经验分批邀请。",
+  review: "试访结束后检查访谈问题和纳入条件。每轮比较预约成功与失败的资料后，再决定是否补招，以及补招哪类经验的学生。",
+};
+
+export function interviewRecord(values, exampleNote = "") {
   const sections = interviewFields.map(({ name, label }) => {
     const value = values[name]?.trim();
     if (!value) throw new Error(`请填写「${label}」。`, { cause: name });
@@ -27,6 +37,7 @@ export function interviewRecord(values) {
 
   return [
     "访谈样本规划记录",
+    ...(exampleNote ? [exampleNote] : []),
     ...sections,
     `方法依据\nMalterud, Siersma & Guassora（2016），Sample Size in Qualitative Interview Studies。\n${informationPowerSource}`,
   ].join("\n\n");
@@ -168,9 +179,12 @@ function bindInterview(container) {
   container.innerHTML = `
     <div class="tool-grid">
       <form class="tool-form" data-interview-form novalidate>
+        <p class="notice" data-interview-example hidden></p>
         <div class="field-grid">${interviewFields.map(interviewFieldTemplate).join("")}</div>
         <div class="form-actions">
           <button class="button" type="submit">生成规划记录</button>
+          <button class="button secondary" type="button" data-interview-demo>运行演示</button>
+          <button class="button secondary" type="button" data-interview-reset hidden>返回我的填写</button>
         </div>
         <p id="interview-error" class="error field-error" data-interview-error role="alert" hidden></p>
       </form>
@@ -200,30 +214,56 @@ function bindInterview(container) {
   const record = container.querySelector("#interview-record");
   const status = container.querySelector("[data-interview-status]");
   const heading = container.querySelector("#interview-result-heading");
+  const exampleNote = container.querySelector("[data-interview-example]");
+  const restoreDraft = container.querySelector("[data-interview-reset]");
+  const inputs = interviewFields.map(({ name }) => form.elements.namedItem(name));
+  const emptyStatus = status.textContent;
+  const exampleStatus = "当前为图书馆座位预约的虚构示例。招募人数仅用于演示这项研究的填写过程。";
+  let ownDraft = null;
+
+  function clearRecord(message) {
+    output.hidden = true;
+    record.value = "";
+    status.textContent = message;
+  }
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     clearFieldError(form, error);
     try {
-      record.value = interviewRecord(Object.fromEntries(new FormData(form)));
+      record.value = interviewRecord(Object.fromEntries(new FormData(form)), ownDraft ? exampleNote.textContent : "");
       output.hidden = false;
-      status.textContent = "规划记录已生成。";
+      status.textContent = ownDraft ? "虚构示例的规划记录已生成。" : "规划记录已生成。";
       heading.focus();
     } catch (problem) {
-      record.value = "";
-      output.hidden = true;
-      status.textContent = "填写研究设计和初始招募计划后，可生成一份供复核的记录。";
+      clearRecord(emptyStatus);
       showFieldError(form, error, problem);
     }
   });
 
   form.addEventListener("input", () => {
     clearFieldError(form, error);
-    if (!output.hidden) {
-      output.hidden = true;
-      record.value = "";
-      status.textContent = "填写内容已更新。请重新生成记录。";
-    }
+    if (ownDraft) exampleNote.textContent = "当前内容根据图书馆座位预约的虚构示例修改。";
+    if (!output.hidden) clearRecord("填写内容已更新。请重新生成记录。");
+  });
+
+  container.querySelector("[data-interview-demo]").addEventListener("click", () => {
+    ownDraft ??= inputs.map((input) => input.value);
+    for (const input of inputs) input.value = interviewExample[input.name];
+    exampleNote.textContent = exampleStatus;
+    exampleNote.hidden = false;
+    restoreDraft.hidden = false;
+    form.requestSubmit();
+  });
+
+  restoreDraft.addEventListener("click", () => {
+    inputs.forEach((input, index) => { input.value = ownDraft[index]; });
+    ownDraft = null;
+    exampleNote.hidden = true;
+    restoreDraft.hidden = true;
+    clearFieldError(form, error);
+    clearRecord("已回到自己的填写内容。填写后可生成规划记录。");
+    inputs[0].focus();
   });
 
   container.querySelector("[data-copy-record]").addEventListener("click", async () => {
@@ -278,7 +318,7 @@ function bindSaturation(container) {
         </div>
         <div class="form-actions">
           <button class="button" type="submit">计算新增信息比例</button>
-          <button class="button secondary" type="button" data-saturation-demo>载入论文图 3 示例</button>
+          <button class="button secondary" type="button" data-saturation-demo>运行演示</button>
         </div>
         <p id="sat-input-error" class="error field-error" data-saturation-error role="alert" hidden></p>
       </form>

@@ -4,13 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f3faf8">
-  <meta name="description" content="有文献依据的量化与质性研究工具。在线计算统计功效、问卷样本与发放量，规划访谈样本并监测新增编码。">
+  <meta name="description" content="LeeV李威制作的研究方法工具箱。提供量化与质性研究工具、港澳出入境时长统计和文件 AI 痕迹检查。">
+  <meta name="author" content="LeeV李威">
   <title>MethodsDesk 研究方法工具箱</title>
   <link rel="canonical" href="https://methodsdesk.red.edu.kg/">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://methodsdesk.red.edu.kg/">
   <meta property="og:title" content="MethodsDesk 研究方法工具箱">
-  <meta property="og:description" content="规划样本、估算问卷发放量和记录访谈设计。各工具附方法出处与使用条件。">
+  <meta property="og:description" content="规划研究样本、统计港澳出入境时长、检查文件 AI 痕迹。作者 LeeV李威。">
   <meta property="og:locale" content="zh_CN">
   <link rel="icon" href="./assets/icon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/styles.css">
@@ -36,7 +37,7 @@
       <div class="hero">
         <div class="hero-copy">
           <h1 tabindex="-1">研究方法工具箱</h1>
-          <p>为研究设计估算样本，规划问卷发放，记录访谈与编码决策。各工具附算例、适用条件和方法出处。</p>
+          <p>为研究设计估算样本并规划招募。也可在本地浏览器统计港澳出入境时长，检查文件中的来源痕迹。</p>
           <a class="button" href="#tools">按研究任务选工具</a>
         </div>
         <div class="hero-art" aria-hidden="true">
@@ -51,10 +52,11 @@
       <section id="tools" class="catalog-section" aria-labelledby="catalog-title">
         <div class="catalog-heading">
           <h2 id="catalog-title" tabindex="-1">工具目录</h2>
-          <div class="catalog-filters" role="group" aria-label="按研究类型筛选">
+          <div class="catalog-filters" role="group" aria-label="按用途筛选工具">
             <button type="button" data-filter="all" aria-pressed="true">全部</button>
             <button type="button" data-filter="quant" aria-pressed="false">定量</button>
             <button type="button" data-filter="qual" aria-pressed="false">质性</button>
+            <button type="button" data-filter="utility" aria-pressed="false">辅助</button>
           </div>
           <span class="visually-hidden" id="catalog-status" role="status"></span>
         </div>
@@ -94,6 +96,21 @@
               </a>
             </div>
           </section>
+          <section class="catalog-group" data-tool-kind="utility" aria-labelledby="utility-heading">
+            <h3 id="utility-heading">辅助工具</h3>
+            <div class="cards">
+              <a class="tool-card" href="#travel">
+                <span class="card-icon" aria-hidden="true">日</span>
+                <span class="card-copy"><strong>港澳出入境时长</strong><span>导入通行记录，按自然年或澳门城市大学学年统计离境天数。</span></span>
+                <span class="card-open" aria-hidden="true"></span>
+              </a>
+              <a class="tool-card" href="#file-trace">
+                <span class="card-icon" aria-hidden="true">查</span>
+                <span class="card-copy"><strong>AI 水印与文件痕迹检查</strong><span>检查不可见字符、文件来源元数据与内容凭据线索。</span></span>
+                <span class="card-open" aria-hidden="true"></span>
+              </a>
+            </div>
+          </section>
         </div>
       </section>
       <noscript><p class="callout">启用 JavaScript 后即可在浏览器中使用计算器。</p></noscript>
@@ -103,6 +120,7 @@
       <div class="tool-heading">
         <h1 tabindex="-1">功效分析</h1>
         <p>为 t 检验规划样本量，或估算固定样本量下的预期功效。独立样本选项适用于等额分组的合并方差 t 检验。</p>
+        <p class="tool-tip">使用说明　选计算任务，填写效应量、显著性水平和对应的样本量或目标功效（目标功效填 0.80 表示 80%）。</p>
       </div>
       <div class="tool-grid">
         <form id="power-form" class="tool-form">
@@ -157,7 +175,7 @@
           <p id="power-direction" class="callout" hidden>单侧检验的方向需在研究前确定。效应量输入预期方向上的正值。</p>
           <div class="form-actions">
             <button class="button" type="submit" id="power-submit">计算样本量</button>
-            <button class="button secondary" type="button" id="power-example">载入算例</button>
+            <button class="button secondary" type="button" id="power-example">运行演示</button>
           </div>
           <p id="power-error" class="error" role="alert" hidden></p>
         </form>
@@ -179,6 +197,7 @@
       <div class="tool-heading">
         <h1 tabindex="-1">问卷样本量</h1>
         <p>为简单随机抽样设定总体比例的估计精度，计算需要多少份可用答卷。</p>
+        <p class="tool-tip">使用说明　选置信水平，填写预估比例与允许误差（允许误差填 5 表示 ±5 个百分点）。</p>
       </div>
       <div id="survey-tool"></div>
     </section>
@@ -187,6 +206,7 @@
       <div class="tool-heading">
         <h1 tabindex="-1">问卷发放量</h1>
         <p>从目标可用答卷数、预计回收率和可用率推算定向邀请量。</p>
+        <p class="tool-tip">使用说明　填目标有效答卷数和两项预估比例（预计回收的答卷中有 90% 可用，可用比例就填 90）。</p>
       </div>
       <div id="invites-tool"></div>
     </section>
@@ -195,6 +215,7 @@
       <div class="tool-heading">
         <h1 tabindex="-1">访谈样本规划</h1>
         <p>依据信息力框架，记录初始招募计划与复核条件。招募人数由研究者根据研究情境填写。</p>
+        <p class="tool-tip">使用说明　按实际研究设计填写各栏，再生成规划记录（招募计划可填人数范围，并写明何时复核）。</p>
       </div>
       <div id="interview-tool"></div>
     </section>
@@ -203,24 +224,45 @@
       <div class="tool-heading">
         <h1 tabindex="-1">编码饱和度监测</h1>
         <p>输入按开展顺序整理的新增编码数，查看各连续访谈窗口的新增编码比例。</p>
+        <p class="tool-tip">使用说明　依序粘贴新增编码数，再设定基准、窗口和阈值（某次没有新增编码就填 0）。</p>
       </div>
       <div id="saturation-tool"></div>
+    </section>
+
+    <section id="travel" class="view tool-view" data-tool hidden>
+      <div class="tool-heading">
+        <h1 tabindex="-1">港澳出入境时长</h1>
+        <p>用港澳通行记录核算离境天数，复核待确认的行程，并导出汇总和明细。</p>
+        <p class="tool-tip">使用说明　选地区与统计口径，导入 PDF 或粘贴记录（遇到待确认的行程，可在汇总下复核口岸）。</p>
+      </div>
+      <div id="travel-tool"></div>
+    </section>
+
+    <section id="file-trace" class="view tool-view" data-tool hidden>
+      <div class="tool-heading">
+        <h1 tabindex="-1">AI 水印与文件痕迹检查</h1>
+        <p>选择文件或粘贴文字，查看能定位的字符与来源字段。检查在当前浏览器内完成。</p>
+        <p class="tool-tip">使用说明　选好文件或贴入文字后，点「开始检查」（结果会列出发现的字符和字段，供人工复核）。</p>
+      </div>
+      <div id="file-trace-tool"></div>
     </section>
 
     <section id="about" class="view tool-view" hidden>
       <div class="tool-heading">
         <h1 tabindex="-1">方法与验算</h1>
-        <p>每个工具页附有使用条件、参数说明、算例与出处。</p>
+        <p>工具箱作者 LeeV李威。工具页附有使用条件和方法依据。</p>
       </div>
       <div class="about-grid">
         <section class="reader" aria-labelledby="choose-heading">
-          <h2 id="choose-heading">按研究目标选方法</h2>
+          <h2 id="choose-heading">工具与方法索引</h2>
           <dl class="method-index">
             <div><dt><a href="#power">功效分析</a></dt><dd>按预先设定的检验和效应量规划样本。</dd></div>
             <div><dt><a href="#survey">问卷样本量</a></dt><dd>按简单随机抽样的估计精度规划可用答卷。</dd></div>
             <div><dt><a href="#invites">问卷发放量</a></dt><dd>按预计回收率和可用率估算招募工作量。</dd></div>
             <div><dt><a href="#interview">访谈样本规划</a></dt><dd>据信息力框架记录样本理由和复核条件。</dd></div>
             <div><dt><a href="#saturation">编码饱和度监测</a></dt><dd>按固定基准和滚动窗口检查新增信息。</dd></div>
+            <div><dt><a href="#travel">港澳出入境时长</a></dt><dd>配对出入境记录，按自然年或学年汇总离境天数。</dd></div>
+            <div><dt><a href="#file-trace">AI 水印与文件痕迹检查</a></dt><dd>逐项列出已观察到的字符、元数据与来源声明。</dd></div>
           </dl>
         </section>
         <div class="about-aside">
@@ -231,7 +273,7 @@
           </section>
           <section class="reader" aria-labelledby="privacy-heading">
             <h2 id="privacy-heading">数据处理</h2>
-            <p>填写和计算在当前浏览器内进行。需要保留结果时，可在工具页复制或下载记录。</p>
+            <p>计算与文件检查在当前浏览器内进行。需要保留结果时，可在工具页复制或下载记录。</p>
           </section>
         </div>
       </div>
@@ -254,7 +296,7 @@
   <footer class="site-footer">
     <div class="frame footer-inner">
       <a href="#">MethodsDesk</a>
-      <span>浏览器内计算</span>
+      <span>作者 LeeV李威</span>
       <a href="#about">方法与验算</a>
       <a href="https://github.com/709503900/methodsdesk">GitHub 源码</a>
     </div>

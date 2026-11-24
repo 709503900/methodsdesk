@@ -214,7 +214,7 @@ function toolTemplate({ name, fields, action, heading, placeholder, notes }) {
       ${fields}
       <div class="form-actions">
         <button class="button" type="submit">${action}</button>
-        <button class="button secondary" type="button" data-example>载入演示参数</button>
+        <button class="button secondary" type="button" data-example>运行演示</button>
       </div>
       <p class="error" data-form-error role="alert" hidden></p>
     </form>
