@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { assessSaturation, guestFigure3, interviewRecord, parseNewCodeCounts } from "../assets/qual.mjs";
+import { assessSaturation, guestFigure3, interviewRecord, parseNewCodeCounts, saturationRecord } from "../assets/qual.mjs";
 
 test("Guest et al. Fig. 3 uses a fixed baseline and overlapping windows", () => {
   const result = assessSaturation(guestFigure3, 4, 2, 5);
@@ -14,6 +14,7 @@ test("Guest et al. Fig. 3 uses a fixed baseline and overlapping windows", () => 
   assert.equal(result.first.end, 8);
   assert.equal(result.notation, "6+2");
   assert.equal(result.windows.length, 15);
+  assert.equal(result.exceedsAfterFirst, 3);
 });
 
 test("Guest et al. Fig. 3 reaches the zero-information threshold at 10+2", () => {
@@ -45,8 +46,23 @@ test("reject undefined denominators and incomplete windows", () => {
 
 test("counts accept common delimiters and reject missing or invalid entries", () => {
   assert.deepEqual(parseNewCodeCounts(" 17, 8，5、7\n4\t3\n1 0 "), [17, 8, 5, 7, 4, 3, 1, 0]);
-  for (const invalid of ["", "1,,2", "1, -2", "1.5", "2e1", "9007199254740992"]) {
+  assert.deepEqual(parseNewCodeCounts("３\r\n１\r\n０\r\n"), [3, 1, 0]);
+  assert.deepEqual(parseNewCodeCounts("3,\n 1,\n 0"), [3, 1, 0]);
+  for (const invalid of ["", "1,,2", "1, -2", "1.5", "2e1", "9007199254740992", "1\n\n2", "1\t\t2"]) {
     assert.throws(() => parseNewCodeCounts(invalid), /填写|非负整数/);
+  }
+  assert.throws(() => parseNewCodeCounts("1\r\n\r\n0"), /第 2 个位置/);
+});
+
+test("spreadsheet paste preserves boundary cells and permits one terminal row delimiter", () => {
+  assert.deepEqual(parseNewCodeCounts("1\n0\n"), [1, 0]);
+  assert.deepEqual(parseNewCodeCounts("1\r0\r"), [1, 0]);
+  assert.deepEqual(parseNewCodeCounts("1\r\n0\r\n"), [1, 0]);
+  for (const input of ["\t1\n0", "\n1\n0", "\r\n1\r\n0", " \n1\n0"]) {
+    assert.throws(() => parseNewCodeCounts(input), /第 1 个位置/);
+  }
+  for (const input of ["1\n0\n\n", "1\r\n0\r\n\r\n", "1\n0\t", "1\n0\n  \n"]) {
+    assert.throws(() => parseNewCodeCounts(input), /第 3 个位置/);
   }
 });
 
@@ -65,4 +81,30 @@ test("interview record preserves the researcher's plan, rationale and review tri
   for (const value of Object.values(values)) assert.ok(record.includes(value));
   assert.match(record, /10\.1177\/1049732315617444/);
   assert.throws(() => interviewRecord({ ...values, review: "  " }), /复核节点/);
+});
+
+test("a saturation record preserves the ordered counts, parameters, exact ratios and data source", () => {
+  const result = assessSaturation(guestFigure3, 4, 2, 5);
+  const record = saturationRecord(result, true);
+
+  assert.match(record, /图 3 的示例计数/);
+  assert.match(record, /基准访谈数 4 次/);
+  assert.match(record, /窗口长度 2 次访谈/);
+  assert.match(record, /新增信息阈值 ≤5%/);
+  assert.ok(record.includes(result.counts.join(", ")));
+  assert.ok(record.includes("5 至 6\t7/37\t18.92%\t否"));
+  assert.ok(record.includes("7 至 8\t1/37\t2.7%\t是"));
+  assert.ok(record.includes("6+2"));
+  assert.match(record, /之后仍有 3 个窗口超过阈值/);
+  assert.match(record, /10\.1371\/journal\.pone\.0232076/);
+});
+
+test("a user-entered saturation record leaves the threshold unset when no window passes", () => {
+  const result = assessSaturation([20, 1], 1, 1, 0);
+  const record = saturationRecord(result);
+
+  assert.match(record, /研究者录入的计数/);
+  assert.match(record, /均高于设定阈值/);
+  assert.ok(record.includes("2\t1/20\t5%\t否"));
+  assert.doesNotMatch(record, /图 3|之后仍有/);
 });

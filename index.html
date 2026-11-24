@@ -3,9 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f0f7f6">
+  <meta name="theme-color" content="#f3faf8">
   <meta name="description" content="有文献依据的量化与质性研究工具。在线计算统计功效、问卷样本与发放量，规划访谈样本并监测新增编码。">
   <title>MethodsDesk 研究方法工具箱</title>
+  <link rel="canonical" href="https://methodsdesk.red.edu.kg/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://methodsdesk.red.edu.kg/">
+  <meta property="og:title" content="MethodsDesk 研究方法工具箱">
+  <meta property="og:description" content="规划样本、估算问卷发放量和记录访谈设计。各工具附方法出处与使用条件。">
+  <meta property="og:locale" content="zh_CN">
   <link rel="icon" href="./assets/icon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/styles.css">
   <script type="module" src="./assets/app.mjs"></script>
@@ -19,7 +25,7 @@
         <span>MethodsDesk</span>
       </a>
       <nav class="main-nav" aria-label="网站导航">
-        <a href="#" data-nav="home">工具</a>
+        <a href="#tools" data-nav="tools">工具目录</a>
         <a href="#about" data-nav="about">方法与验算</a>
       </nav>
     </div>
@@ -30,66 +36,91 @@
       <div class="hero">
         <div class="hero-copy">
           <h1 tabindex="-1">研究方法工具箱</h1>
-          <p>有文献依据的量化与质性研究工具。</p>
-          <p>选择研究任务，查看计算条件、算例和方法出处。</p>
+          <p>为研究设计估算样本，规划问卷发放，记录访谈与编码决策。各工具附算例、适用条件和方法出处。</p>
+          <a class="button" href="#tools">按研究任务选工具</a>
         </div>
-        <div class="hero-art" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="plot">
+            <div class="plot-axis"></div>
+            <div class="plot-step"><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="plot-card"><i></i><i></i><i></i></div>
+          </div>
+        </div>
       </div>
 
-      <div class="catalog" aria-label="研究工具">
-        <section class="catalog-group" aria-labelledby="quant-heading">
-          <h2 id="quant-heading">定量研究</h2>
-          <div class="cards">
-            <a class="tool-card" href="#power">
-              <span class="card-icon" aria-hidden="true">β</span>
-              <span class="card-copy"><strong>功效分析</strong><span>按独立样本或配对 t 检验规划样本量。</span></span>
-              <span class="card-open" aria-hidden="true">打开</span>
-            </a>
-            <a class="tool-card" href="#survey">
-              <span class="card-icon" aria-hidden="true">n</span>
-              <span class="card-copy"><strong>问卷样本量</strong><span>按总体比例的估计精度规划可用答卷数。</span></span>
-              <span class="card-open" aria-hidden="true">打开</span>
-            </a>
-            <a class="tool-card" href="#invites">
-              <span class="card-icon" aria-hidden="true">%</span>
-              <span class="card-copy"><strong>问卷发放量</strong><span>根据预计回收率和可用率反推邀请数。</span></span>
-              <span class="card-open" aria-hidden="true">打开</span>
-            </a>
+      <section id="tools" class="catalog-section" aria-labelledby="catalog-title">
+        <div class="catalog-heading">
+          <h2 id="catalog-title" tabindex="-1">工具目录</h2>
+          <div class="catalog-filters" role="group" aria-label="按研究类型筛选">
+            <button type="button" data-filter="all" aria-pressed="true">全部</button>
+            <button type="button" data-filter="quant" aria-pressed="false">定量</button>
+            <button type="button" data-filter="qual" aria-pressed="false">质性</button>
           </div>
-        </section>
-        <section class="catalog-group" aria-labelledby="qual-heading">
-          <h2 id="qual-heading">质性研究</h2>
-          <div class="cards">
-            <a class="tool-card qualitative" href="#interview">
-              <span class="card-icon" aria-hidden="true">访</span>
-              <span class="card-copy"><strong>访谈样本规划</strong><span>用信息力框架记录初始招募计划和样本理由。</span></span>
-              <span class="card-open" aria-hidden="true">打开</span>
-            </a>
-            <a class="tool-card qualitative" href="#saturation">
-              <span class="card-icon" aria-hidden="true">Δ</span>
-              <span class="card-copy"><strong>编码饱和度监测</strong><span>按访谈顺序查看新增编码比例。</span></span>
-              <span class="card-open" aria-hidden="true">打开</span>
-            </a>
-          </div>
-        </section>
-      </div>
+          <span class="visually-hidden" id="catalog-status" role="status"></span>
+        </div>
+        <div class="catalog">
+          <section class="catalog-group" data-tool-kind="quant" aria-labelledby="quant-heading">
+            <h3 id="quant-heading">定量研究</h3>
+            <div class="cards">
+              <a class="tool-card" href="#power">
+                <span class="card-icon" aria-hidden="true">β</span>
+                <span class="card-copy"><strong>功效分析</strong><span>规划 t 检验样本量，或估算给定样本量下的功效。</span></span>
+                <span class="card-open" aria-hidden="true"></span>
+              </a>
+              <a class="tool-card" href="#survey">
+                <span class="card-icon" aria-hidden="true">n</span>
+                <span class="card-copy"><strong>问卷样本量</strong><span>按总体比例的目标精度规划可用答卷数。</span></span>
+                <span class="card-open" aria-hidden="true"></span>
+              </a>
+              <a class="tool-card" href="#invites">
+                <span class="card-icon" aria-hidden="true">%</span>
+                <span class="card-copy"><strong>问卷发放量</strong><span>根据预计回收率和可用率反推邀请数。</span></span>
+                <span class="card-open" aria-hidden="true"></span>
+              </a>
+            </div>
+          </section>
+          <section class="catalog-group" data-tool-kind="qual" aria-labelledby="qual-heading">
+            <h3 id="qual-heading">质性研究</h3>
+            <div class="cards">
+              <a class="tool-card qualitative" href="#interview">
+                <span class="card-icon" aria-hidden="true">访</span>
+                <span class="card-copy"><strong>访谈样本规划</strong><span>用信息力框架撰写招募规模的理由，记录复核条件。</span></span>
+                <span class="card-open" aria-hidden="true"></span>
+              </a>
+              <a class="tool-card qualitative" href="#saturation">
+                <span class="card-icon" aria-hidden="true">Δ</span>
+                <span class="card-copy"><strong>编码饱和度监测</strong><span>按访谈顺序检查新增编码比例和达到阈值的窗口。</span></span>
+                <span class="card-open" aria-hidden="true"></span>
+              </a>
+            </div>
+          </section>
+        </div>
+      </section>
       <noscript><p class="callout">启用 JavaScript 后即可在浏览器中使用计算器。</p></noscript>
     </section>
 
-    <section id="power" class="view tool-view" hidden>
+    <section id="power" class="view tool-view" data-tool hidden>
       <div class="tool-heading">
-        <a class="back-link" href="#">返回工具</a>
         <h1 tabindex="-1">功效分析</h1>
-        <p>根据最小有意义效应或有依据的预期效应，估算 t 检验所需样本。两组独立样本采用等额分配及合并方差 t 检验。</p>
+        <p>为 t 检验规划样本量，或估算固定样本量下的预期功效。独立样本选项适用于等额分组的合并方差 t 检验。</p>
       </div>
       <div class="tool-grid">
         <form id="power-form" class="tool-form">
-          <div class="field">
-            <label for="power-design">研究设计</label>
-            <select id="power-design" name="design">
-              <option value="independent">独立样本 t 检验</option>
-              <option value="paired">配对 t 检验</option>
-            </select>
+          <div class="field-grid">
+            <div class="field">
+              <label for="power-mode">计算任务</label>
+              <select id="power-mode" name="mode">
+                <option value="plan">规划样本量</option>
+                <option value="assess">计算预期功效</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="power-design">研究设计</label>
+              <select id="power-design" name="design">
+                <option value="independent">独立样本 t 检验</option>
+                <option value="paired">配对 t 检验</option>
+              </select>
+            </div>
           </div>
           <div class="field-grid">
             <div class="field">
@@ -110,7 +141,13 @@
             </div>
             <div class="field">
               <label for="power-target">目标功效 1 − β</label>
-              <input id="power-target" name="targetPower" type="number" inputmode="decimal" step="any" value="0.80" required>
+              <input id="power-target" name="targetPower" type="number" inputmode="decimal" step="any" value="0.80" aria-describedby="power-target-help" required>
+              <small id="power-target-help">输入小数，例如 0.80 表示 80%。</small>
+            </div>
+            <div class="field" hidden>
+              <label id="power-size-label" for="power-size">每组样本量</label>
+              <input id="power-size" name="sampleSize" type="number" inputmode="numeric" min="2" max="500000" step="1" aria-describedby="power-size-help" disabled>
+              <small id="power-size-help">填入整数。</small>
             </div>
           </div>
           <div class="field">
@@ -119,7 +156,7 @@
           </div>
           <p id="power-direction" class="callout" hidden>单侧检验的方向需在研究前确定。效应量输入预期方向上的正值。</p>
           <div class="form-actions">
-            <button class="button" type="submit">计算样本量</button>
+            <button class="button" type="submit" id="power-submit">计算样本量</button>
             <button class="button secondary" type="button" id="power-example">载入算例</button>
           </div>
           <p id="power-error" class="error" role="alert" hidden></p>
@@ -131,43 +168,39 @@
       </div>
       <details class="method-notes">
         <summary>计算方法、适用条件与算例</summary>
-        <p>使用非中心 t 分布计算备择假设下落入拒绝域的概率。双侧检验计入两端拒绝域。网站搜索达到目标功效的最小整数样本量。</p>
+        <p>使用非中心 t 分布计算备择假设下落入拒绝域的概率。双侧检验计入两端拒绝域。规划样本量时，工具搜索达到目标功效的最小整数样本量。输入固定样本量时，结果表示在所设效应下的预期功效。</p>
         <p>独立样本检验假定观测独立及两组总体方差相等。配对检验以每对观测的差值为分析单位，效应量分母为差值的标准差。两种计算均使用相应的正态模型。</p>
         <p>演示算例采用双侧独立样本检验。效应量取 0.50，显著性水平取 0.05，目标功效取 0.80。需要每组 64 人，共 128 人，按所设效应量计算，取整后的功效约为 0.80146。例中的效应量用于演示。</p>
         <p><a href="https://doi.org/10.3758/BF03193146">Faul 等，G*Power 3 方法论文</a> · <a href="https://doi.org/10.1525/collabra.33267">Lakens，样本量论证</a> · <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/power.t.test.html">R 参考实现</a></p>
       </details>
     </section>
 
-    <section id="survey" class="view tool-view" hidden>
+    <section id="survey" class="view tool-view" data-tool hidden>
       <div class="tool-heading">
-        <a class="back-link" href="#">返回工具</a>
         <h1 tabindex="-1">问卷样本量</h1>
-        <p>根据置信水平和允许误差，估算简单随机抽样下估计一个总体比例所需的答卷数。</p>
+        <p>为简单随机抽样设定总体比例的估计精度，计算需要多少份可用答卷。</p>
       </div>
       <div id="survey-tool"></div>
     </section>
 
-    <section id="invites" class="view tool-view" hidden>
+    <section id="invites" class="view tool-view" data-tool hidden>
       <div class="tool-heading">
-        <a class="back-link" href="#">返回工具</a>
         <h1 tabindex="-1">问卷发放量</h1>
-        <p>用计划取得的可用答卷数和预计回收情况，估算要发出多少定向邀请。</p>
+        <p>从目标可用答卷数、预计回收率和可用率推算定向邀请量。</p>
       </div>
       <div id="invites-tool"></div>
     </section>
 
-    <section id="interview" class="view tool-view" hidden>
+    <section id="interview" class="view tool-view" data-tool hidden>
       <div class="tool-heading">
-        <a class="back-link" href="#">返回工具</a>
         <h1 tabindex="-1">访谈样本规划</h1>
         <p>依据信息力框架，记录初始招募计划与复核条件。招募人数由研究者根据研究情境填写。</p>
       </div>
       <div id="interview-tool"></div>
     </section>
 
-    <section id="saturation" class="view tool-view" hidden>
+    <section id="saturation" class="view tool-view" data-tool hidden>
       <div class="tool-heading">
-        <a class="back-link" href="#">返回工具</a>
         <h1 tabindex="-1">编码饱和度监测</h1>
         <p>输入按开展顺序整理的新增编码数，查看各连续访谈窗口的新增编码比例。</p>
       </div>
@@ -176,24 +209,54 @@
 
     <section id="about" class="view tool-view" hidden>
       <div class="tool-heading">
-        <a class="back-link" href="#">返回工具</a>
         <h1 tabindex="-1">方法与验算</h1>
         <p>每个工具页附有使用条件、参数说明、算例与出处。</p>
       </div>
-      <div class="reader">
-        <h2>计算与复核</h2>
-        <p>功效分析用 R 的非中心 t 分布结果交叉验算。比例样本量按已发表的抽样公式复算。编码饱和度使用 Guest 等人论文图 3 的算例核对。</p>
-        <p>所有计算与工作表都在浏览器中运行。工具页面无需登录，输入由使用者在页面内填写和记录。</p>
-        <a class="button secondary" href="https://github.com/709503900/methodsdesk">查看源码与验算用例</a>
+      <div class="about-grid">
+        <section class="reader" aria-labelledby="choose-heading">
+          <h2 id="choose-heading">按研究目标选方法</h2>
+          <dl class="method-index">
+            <div><dt><a href="#power">功效分析</a></dt><dd>按预先设定的检验和效应量规划样本。</dd></div>
+            <div><dt><a href="#survey">问卷样本量</a></dt><dd>按简单随机抽样的估计精度规划可用答卷。</dd></div>
+            <div><dt><a href="#invites">问卷发放量</a></dt><dd>按预计回收率和可用率估算招募工作量。</dd></div>
+            <div><dt><a href="#interview">访谈样本规划</a></dt><dd>据信息力框架记录样本理由和复核条件。</dd></div>
+            <div><dt><a href="#saturation">编码饱和度监测</a></dt><dd>按固定基准和滚动窗口检查新增信息。</dd></div>
+          </dl>
+        </section>
+        <div class="about-aside">
+          <section class="reader" aria-labelledby="checks-heading">
+            <h2 id="checks-heading">计算与复核</h2>
+            <p>功效分析与 R 的非中心 t 分布结果交叉核对。比例样本量按发表的抽样公式复算。编码饱和度复现 Guest 等人论文图 3 的算例。</p>
+            <a class="button secondary" href="https://github.com/709503900/methodsdesk/blob/main/docs/methods.md">查看方法与验算记录</a>
+          </section>
+          <section class="reader" aria-labelledby="privacy-heading">
+            <h2 id="privacy-heading">数据处理</h2>
+            <p>填写和计算在当前浏览器内进行。需要保留结果时，可在工具页复制或下载记录。</p>
+          </section>
+        </div>
       </div>
     </section>
   </main>
+
+  <template id="tool-navigation">
+    <div class="tool-toolbar">
+      <a class="back-link" href="#tools"><span aria-hidden="true"></span>返回工具目录</a>
+      <button class="button secondary share-button" type="button">复制工具链接</button>
+    </div>
+    <div class="tool-share-feedback" role="status" hidden></div>
+    <div class="tool-share-fallback field" hidden>
+      <label>工具链接
+        <input type="url" readonly>
+      </label>
+    </div>
+  </template>
 
   <footer class="site-footer">
     <div class="frame footer-inner">
       <a href="#">MethodsDesk</a>
       <span>浏览器内计算</span>
       <a href="#about">方法与验算</a>
+      <a href="https://github.com/709503900/methodsdesk">GitHub 源码</a>
     </div>
   </footer>
 </body>
