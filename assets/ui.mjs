@@ -1,6 +1,6 @@
-export function downloadText(filename, content, type = 'text/plain;charset=utf-8') {
+export function downloadText(filename, content) {
   const link = document.createElement('a');
-  const url = URL.createObjectURL(new Blob([content], { type }));
+  const url = URL.createObjectURL(new Blob([content], { type: 'text/plain;charset=utf-8' }));
   link.href = url;
   link.download = filename;
   document.body.append(link);

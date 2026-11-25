@@ -15,7 +15,7 @@
   <meta property="og:locale" content="zh_CN">
   <link rel="icon" href="./assets/icon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/styles.css">
-  <script type="module" src="./assets/app.mjs"></script>
+  <script type="module" src="./assets/app.mjs?v=20261125"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">跳至主要内容</a>
@@ -37,7 +37,7 @@
       <div class="hero">
         <div class="hero-copy">
           <h1 tabindex="-1">研究方法工具箱</h1>
-          <p>为研究设计估算样本并规划招募。也可在本地浏览器统计港澳出入境时长，检查文件中的来源痕迹。</p>
+          <p>为研究设计估算样本、规划招募和检查文件来源痕迹。目录也可直达港澳出入境时长工具。</p>
           <a class="button" href="#tools">按研究任务选工具</a>
         </div>
         <div class="hero-art" aria-hidden="true">
@@ -99,9 +99,9 @@
           <section class="catalog-group" data-tool-kind="utility" aria-labelledby="utility-heading">
             <h3 id="utility-heading">辅助工具</h3>
             <div class="cards">
-              <a class="tool-card" href="#travel">
+              <a class="tool-card" id="travel-link" href="https://entryexittime.netlify.app/">
                 <span class="card-icon" aria-hidden="true">日</span>
-                <span class="card-copy"><strong>港澳出入境时长</strong><span>导入通行记录，按自然年或澳门城市大学学年统计离境天数。</span></span>
+                <span class="card-copy"><strong>港澳出入境时长</strong><span>打开原工具，导入通行记录并按自然年或学年统计离境天数。</span></span>
                 <span class="card-open" aria-hidden="true"></span>
               </a>
               <a class="tool-card" href="#file-trace">
@@ -229,15 +229,6 @@
       <div id="saturation-tool"></div>
     </section>
 
-    <section id="travel" class="view tool-view" data-tool hidden>
-      <div class="tool-heading">
-        <h1 tabindex="-1">港澳出入境时长</h1>
-        <p>用港澳通行记录核算离境天数，复核待确认的行程，并导出汇总和明细。</p>
-        <p class="tool-tip">使用说明　选地区与统计口径，导入 PDF 或粘贴记录（遇到待确认的行程，可在汇总下复核口岸）。</p>
-      </div>
-      <div id="travel-tool"></div>
-    </section>
-
     <section id="file-trace" class="view tool-view" data-tool hidden>
       <div class="tool-heading">
         <h1 tabindex="-1">AI 水印与文件痕迹检查</h1>
@@ -261,7 +252,7 @@
             <div><dt><a href="#invites">问卷发放量</a></dt><dd>按预计回收率和可用率估算招募工作量。</dd></div>
             <div><dt><a href="#interview">访谈样本规划</a></dt><dd>据信息力框架记录样本理由和复核条件。</dd></div>
             <div><dt><a href="#saturation">编码饱和度监测</a></dt><dd>按固定基准和滚动窗口检查新增信息。</dd></div>
-            <div><dt><a href="#travel">港澳出入境时长</a></dt><dd>配对出入境记录，按自然年或学年汇总离境天数。</dd></div>
+            <div><dt><a href="https://entryexittime.netlify.app/">港澳出入境时长</a></dt><dd>前往原工具汇总离境天数。</dd></div>
             <div><dt><a href="#file-trace">AI 水印与文件痕迹检查</a></dt><dd>逐项列出已观察到的字符、元数据与来源声明。</dd></div>
           </dl>
         </section>

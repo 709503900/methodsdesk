@@ -1,8 +1,7 @@
-export const localPdfMaxBytes = 25 * 1024 * 1024;
-export const localPdfMaxPages = 500;
-export const maxRecordTextLength = 2_000_000;
+const localPdfMaxBytes = 25 * 1024 * 1024;
+const localPdfMaxPages = 500;
 
-export class LocalPdfLimitError extends RangeError {}
+class LocalPdfLimitError extends RangeError {}
 
 export async function openLocalPdf(data) {
   if (data.byteLength > localPdfMaxBytes) throw new LocalPdfLimitError('PDF 超过 25 MB。');
@@ -28,32 +27,5 @@ export async function openLocalPdf(data) {
     // Release the worker without replacing the original reader error.
     await task.destroy().catch(() => {});
     throw error;
-  }
-}
-
-export async function readLocalPdfText(file, onPage) {
-  const task = await openLocalPdf(await file.arrayBuffer());
-  try {
-    const pdf = await task.promise;
-    const pages = [];
-    let length = 0;
-    for (let number = 1; number <= pdf.numPages; number += 1) {
-      onPage(number, pdf.numPages);
-      const page = await pdf.getPage(number);
-      try {
-        const content = await page.getTextContent();
-        const text = content.items.map(item => item.str || '').join(' ');
-        length += text.length + 1;
-        if (length > maxRecordTextLength) {
-          throw new LocalPdfLimitError('PDF 文字过长。可缩短记录查询范围，或分批粘贴表格文字。');
-        }
-        pages.push(text);
-      } finally {
-        page.cleanup();
-      }
-    }
-    return pages.join('\n');
-  } finally {
-    await task.destroy().catch(() => {});
   }
 }

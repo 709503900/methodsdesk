@@ -1,7 +1,6 @@
 import { mountPower } from './power-tool.mjs';
 import { mountSurvey } from './survey.mjs';
 import { mountQual } from './qual.mjs';
-import { mountTravel } from './travel-tool.mjs';
 import { mountFileTrace } from './trace-tool.mjs';
 import { copyText } from './ui.mjs';
 
@@ -12,6 +11,10 @@ const catalog = document.querySelector('#tools');
 
 function showView(focusHeading = false) {
   const id = location.hash.slice(1);
+  if (id === 'travel') {
+    location.replace(document.querySelector('#travel-link').href);
+    return;
+  }
   const view = views.find((item) => item.id === id) ?? views[0];
   const heading = id === 'tools' ? catalog.querySelector('h2') : view.querySelector('h1');
   views.forEach((item) => { item.hidden = item !== view; });
@@ -74,7 +77,6 @@ function mountToolNavigation() {
 mountPower();
 mountSurvey();
 mountQual();
-mountTravel();
 mountFileTrace();
 mountCatalog();
 mountToolNavigation();
